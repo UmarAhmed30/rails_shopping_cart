@@ -12,7 +12,6 @@ class Item < ApplicationRecord
       total += subtotal
     end
 
-    puts "Total: #--------------------------------------------------------------------------------{total}--------------------------------------------------------------------------------"
     cart.update(total:total)
   end
 end
