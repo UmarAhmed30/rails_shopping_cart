@@ -22,6 +22,6 @@ class CartsController < ApplicationController
   private
 
   def set_cart
-    @cart = Cart.find(params[:id])
+    @cart = Cart.find(params[:id]) rescue not_found
   end
 end
