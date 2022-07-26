@@ -3,7 +3,7 @@ class ItemsController < ApplicationController
 
   def update
     respond_to do |format|
-      if @item.update(quantity: params[:quantity])
+      if @item.update(item_params)
         flash[:notice] = 'Item updated successfully'
         format.json { render json: { status: 200 } }
       else
@@ -27,6 +27,10 @@ class ItemsController < ApplicationController
 
   def set_cart_and_item
     @cart = Cart.find(params[:cart_id])
-    @item = @cart.items.find(params[:id])
+    @item = Item.find(params[:id])
+  end
+
+  def item_params
+    params.require(:item).permit(:quantity)
   end
 end
