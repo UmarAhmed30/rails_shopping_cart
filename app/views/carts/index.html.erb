@@ -1,0 +1,9 @@
+<div class="container">
+  <h1 class="text-center">My Carts</h1>
+
+  <% @carts.each do |cart| %>
+  <ul class="list-group">
+    <li class="list-group-item"><%= link_to cart.number, cart_path(cart) %></li>
+  </ul>
+  <% end %>
+</div>

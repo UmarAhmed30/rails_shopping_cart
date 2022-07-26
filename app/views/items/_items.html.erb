@@ -1,0 +1,79 @@
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Item</th>
+      <th scope="col">Image</th>
+      <th scope="col">Quantity</th>
+      <th scope="col">Price</th>
+      <th scope="col">Subtotal</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @items.each do |item| %>
+    <tr>
+      <td><%= item.title %></td>
+      <td><img src="<%= item.img %>" width="200" height="200" /></td>
+      <td>
+        <div class="container">
+          <span id="item-quantity-<%= item.id %>"><%= item.quantity %></span>
+          <div
+            class="btn-group float-end"
+            role="group"
+          >
+            <%= link_to '<i class="bi bi-plus"></i>'.html_safe,
+              nil,
+              remote: true, 
+              class: "btn btn-outline-dark",
+              id: "add-button-#{item.id}",
+              data: {
+                controller: "items",
+                action: "items#toggleQuantity",
+                items_quantity_param: "item-quantity-#{item.id}",
+                items_add_param: "add-button-#{item.id}",
+                items_price_param: "price-#{item.id}",
+                items_subtotal_param: "subtotal-#{item.id}",
+              }
+            %>
+            <%= link_to '<i class="bi bi-dash"></i>'.html_safe,
+            nil,
+            remote: true, 
+            class: "btn btn-outline-dark",
+            id: "minus-button-#{item.id}",
+            data: {
+              controller: "items",
+              action: "items#toggleQuantity",
+              items_quantity_param: "item-quantity-#{item.id}",
+              items_minus_param: "minus-button-#{item.id}",
+              items_price_param: "price-#{item.id}",
+              items_subtotal_param: "subtotal-#{item.id}"
+            }
+          %>
+          </div>
+        </div>
+      </td>
+      <td><h5 id="price-<%= item.id %>"><%= item.price %></h5></td>
+      <td>
+        <div class="container">
+          <h3 id="subtotal-<%= item.id %>"><%= item.quantity*item.price %></h3>
+          <%= button_to 'Remove Item', cart_item_path(@cart,item), method: :delete, form: { data: {turbo_confirm: "Are you sure?"}}, class:"btn btn-outline-danger" %>
+        </div>
+      </td>
+      <td>
+        <%= link_to 'Update',
+          nil,
+          remote: true,
+          class: "btn btn-outline-warning",
+          data: {
+            controller: "items",
+            action: "items#updateQuantity",
+            items_cart_param: "#{@cart.id}",
+            items_item_param: "#{item.id}",
+            items_quantity_param: "item-quantity-#{item.id}"
+          }
+        %>
+      </td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>
